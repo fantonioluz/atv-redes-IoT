@@ -1,0 +1,45 @@
+esphome:
+  name: alarm-sensor
+  friendly_name: Alarm Sensor
+
+esp32:
+  board: esp32dev
+  framework:
+    type: arduino
+
+logger:
+  
+
+ota:
+  - platform: esphome
+    password: "60b452b7eec6bef93d8b955ca02726f7"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  ap:
+    ssid: "Alarm-Sensor Fallback"
+    password: "hkLO20tSW0P7"
+
+captive_portal:
+
+mqtt:
+  broker: 172.20.10.3
+  port: 1883
+  username: mqtt
+  password: !secret mqtt_password
+  discovery: true
+  discovery_prefix: homeassistant
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 23        
+      mode:
+        input: true
+        pullup: false  
+    name: "Presença Sala PIR"
+    device_class: motion
+    filters:
+      - delayed_off: 2s
